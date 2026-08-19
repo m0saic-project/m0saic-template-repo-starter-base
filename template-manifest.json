@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "repo": {
+    "repoId": "@m0saic-starter-base",
+    "displayName": "m0saic Template Starter Base",
+    "schemaVersion": 1,
+    "description": "The compact twin of the m0saic template starter: the minimum set of files that load in Mosaic, plus one hello-world template. Fork it, rename it, build on it.",
+    "curator": "m0saic",
+    "homepage": "https://github.com/m0saic-project/m0saic-template-repo-starter-base",
+    "assets": {
+      "templatesDir": "assets/templates"
+    }
+  },
+  "entryModule": "./dist/index.js",
+  "templates": [
+    {
+      "slug": "hello-world",
+      "templateKey": "@m0saic-starter-base/basics/hello-world/v1",
+      "title": "01 · Hello World",
+      "description": "The smallest correct template: a typed props surface with deterministic defaults, an id minted with asTemplateId, outputHints as the suggested canvas, and a render() returning a validated m0 string plus one source per tile in walk order. Replace it with your first real template.",
+      "tags": [
+        "basics",
+        "starter"
+      ],
+      "pack": "basics",
+      "preview": {
+        "image": "assets/templates/@m0saic-starter-base__basics__hello-world__v1/preview.png"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "basics",
+      "title": "Basics",
+      "description": "Your templates. hello-world shows the anatomy; replace it."
+    }
+  ]
+}

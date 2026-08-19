@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# NOTE: dist/ and template-manifest.json are COMMITTED on purpose — the app
+# and CLI load this repo zero-build straight from a clone (src/ is never
+# read). Rebuild before committing; CI checks freshness.
+
+# local render output
+test-output
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env
