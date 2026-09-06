@@ -25,6 +25,11 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 process.env.M0SAIC_CLI ??= "/usr/bin/false";
 
+// `--sweep`: also render every template on the standard canvases (1080p
+// landscape / portrait / square) for the `canvasEnvelope` rule. Off by
+// default — a build gate renders once; the sweep is a few times the cost.
+const SWEEP = process.argv.includes("--sweep");
+
 let templates;
 let templateUtils;
 try {
@@ -76,7 +81,7 @@ const warnings2 = [];
 const skipped = [];
 let rendered = 0;
 for (const template of templates) {
-  const audit = await templateUtils.auditRenderedTemplate(template);
+  const audit = await templateUtils.auditRenderedTemplate(template, SWEEP ? { sweepCanvases: templateUtils.STANDARD_SWEEP_CANVASES } : {});
   if (audit.skipped) {
     skipped.push(`${audit.templateId}: ${audit.skipped}`);
     continue;
@@ -95,4 +100,5 @@ if (errors2.length) {
   console.error("[check-registry] Fix the template(s) above, then rebuild. (tools/check-registry.mjs)");
   process.exit(1);
 }
+if (SWEEP) console.log(`[check-registry] (sweep) each template was also rendered on ${templateUtils.STANDARD_SWEEP_CANVASES.length} standard canvases for the canvasEnvelope rule.`);
 console.log(`[check-registry] ✓ ${rendered} templates rendered at their defaults — render-time conventions hold (${skipped.length} skipped: inputs required).`);
