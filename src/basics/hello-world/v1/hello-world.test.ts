@@ -1,4 +1,5 @@
 import type { MosaicTextSource } from "@m0saic/types";
+import { resolvePropBindings } from "@m0saic/template-utils";
 
 import { asDocument, defaultCtx } from "../../../__testutils__/render";
 import { HelloWorldV1 } from "./hello-world";
@@ -44,5 +45,17 @@ describe("@m0saic-starter-base/basics/hello-world/v1", () => {
     await expect(
       HelloWorldV1.render({ backgroundColor: "red" }, defaultCtx),
     ).rejects.toThrow(/#rrggbb/);
+  });
+
+  it("binds the greeting rect to `text` — Make's double-click edits it in place", async () => {
+    const doc = asDocument(
+      await HelloWorldV1.render({ ...HelloWorldV1.defaultProps }, defaultCtx),
+    );
+    const { byProp, rejected } = resolvePropBindings(doc, 1280, 720, {
+      propsSchema: HelloWorldV1.propsSchema,
+    });
+    expect(rejected).toEqual([]); // every binding names a real, bindable prop
+    expect(byProp.text).toHaveLength(1); // exactly one rect edits the greeting
+    expect(byProp.backgroundColor).toBeUndefined(); // a fill is not drawn text
   });
 });

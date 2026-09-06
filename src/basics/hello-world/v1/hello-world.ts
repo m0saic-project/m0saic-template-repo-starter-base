@@ -8,6 +8,7 @@ import { toM0String } from "@m0saic/dsl-stdlib";
 import {
   BRAND_ORANGE,
   HEADER_M_GLYPH,
+  bindProp,
   brandGlyphTile,
   defineMosaicTemplate,
   definePropsSchema,
@@ -30,6 +31,10 @@ import {
  *   5. The m0 string branded through `toM0String(...)` — it canonicalizes
  *      and VALIDATES, throwing on a malformed string instead of failing
  *      later, mysteriously, at render time.
+ *   6. A prop BINDING (`bindProp`) on the rect that displays a prop. Make
+ *      derives "which rect edits which knob" from it every render, so a
+ *      double-click on the greeting edits `text` in place. The build gate
+ *      warns when a displayed prop has no binding ("bind what you show").
  *
  * Replace this file with your first real template; the full starter repo
  * (m0saic-template-repo-starter) walks the whole authoring surface one
@@ -52,7 +57,7 @@ const propsSchema = definePropsSchema<HelloWorldProps>({
     type: "string",
     required: false,
     description: "The greeting rendered under the M.",
-    meta: { control: { placeholder: "Hello, m0saic" } },
+    meta: { control: { placeholder: "Hello, m0saic" }, ui: { label: "Greeting" } },
   },
   backgroundColor: {
     type: "string",
@@ -138,11 +143,17 @@ export const HelloWorldV1 = defineMosaicTemplate<HelloWorldProps>({
         },
         {
           rect: { x: label.x, y: label.y, w: label.w, h: label.h, importance: 1 },
-          source: svgLabel(text, label.w, label.h, {
-            maxPx: Math.round(height * 0.055),
-            maxLines: 1,
-            color: INK,
-          }),
+          // The rect that SHOWS `text` is bound to it: Make's double-click
+          // edits the prop right there. The per-render stableKey is output;
+          // the binding is authored once, here.
+          source: bindProp(
+            svgLabel(text, label.w, label.h, {
+              maxPx: Math.round(height * 0.055),
+              maxLines: 1,
+              color: INK,
+            }),
+            "text",
+          ),
         },
       ],
     });

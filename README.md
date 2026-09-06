@@ -33,6 +33,13 @@ npm run verify     # build + lint + jest + contract-check + check-deps
 ```
 
 The loop: edit `src/`, `npm run build`, Refresh the source in the app.
+The build runs every template through the platform's template conventions
+— at definition time (defaults shown, colour props declared, no local
+paths, description + tags, labels) and again after rendering it at its
+defaults (it renders, every `editor.binding` resolves, displayed props are
+bound, svg glyphs exist). Errors fail the build and name the fix; warnings
+print. `hello-world` models the binding rule: the rect that shows `text` is
+`bindProp`-bound, so Make's double-click edits it in place.
 New template: mirror `src/basics/hello-world/` (folder = slug, `vN`
 versioned), add a row to the pack's `registry.ts` and its export to the
 pack's `index.ts`, mint a preview (`npm run previews`), re-run `verify`.
