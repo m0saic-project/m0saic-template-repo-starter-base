@@ -1,9 +1,12 @@
 # dependencies
 node_modules
 
-# NOTE: dist/ and template-manifest.json are COMMITTED on purpose — the app
-# and CLI load this repo zero-build straight from a clone (src/ is never
-# read). Rebuild before committing; CI checks freshness.
+# build output — `npm run build` writes both. Hosts load dist/index.js (never
+# src/), so build before adding this folder as a source. The full starter
+# commits these for a zero-build clone; this scaffold is for developing in,
+# so generated files stay out of your diffs.
+dist
+template-manifest.json
 
 # local render output
 test-output

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * Loader-contract self-check for the COMMITTED artifacts (dist/ + manifest).
+ * Loader-contract self-check for the BUILT artifacts (dist/ + manifest).
+ * Run `npm run build` first — neither file is committed in this scaffold.
  *
- * Tier A (default) — pure Node, zero install, fork-safe CI: verifies the
- * things `loadTemplateRepoFromPath` will verify, without needing the
- * @m0saic substrate on disk:
+ * Tier A (default) — pure Node, fork-safe: verifies the things
+ * `loadTemplateRepoFromPath` will verify, without needing the @m0saic
+ * substrate on disk at check time:
  *   1. package.json is not "type":"module" and `main` points at a real file.
  *   2. template-manifest.json parses; schemaVersion 1 at both levels;
  *      repoId matches the manifest (derived from src/repo.ts); entryModule exists; every preview path
@@ -52,7 +53,7 @@ if (pkg.type === "module") {
 const mainRel = pkg.main ?? "dist/index.js";
 const mainAbs = path.join(ROOT, mainRel);
 if (!fs.existsSync(mainAbs)) {
-  fail(`package.json main "${mainRel}" does not exist — run the build (dist/ must be committed)`);
+  fail(`package.json main "${mainRel}" does not exist — run \`npm run build\` first (dist/ is not committed)`);
 }
 
 /* ── 2. template-manifest.json ────────────────────────────── */

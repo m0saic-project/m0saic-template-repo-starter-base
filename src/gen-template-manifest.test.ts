@@ -4,15 +4,18 @@ import * as path from "node:path";
 import { buildStarterManifest } from "./gen-template-manifest";
 
 /**
- * Manifest freshness: the committed template-manifest.json must be exactly
- * what the current source builds. A drifted manifest means someone edited
- * templates (or the registry) without running `npm run build` — the browse
- * surface would lie about the code.
+ * Manifest freshness: the template-manifest.json on disk (written by
+ * `npm run build`; not committed) must be exactly what the current source
+ * builds. A drifted manifest means someone edited templates (or the
+ * registry) without rebuilding — the browse surface would lie about the code.
  */
 describe("template-manifest.json freshness", () => {
   it("matches buildStarterManifest() output exactly", () => {
-    const committedPath = path.resolve(__dirname, "..", "template-manifest.json");
-    const committed = JSON.parse(fs.readFileSync(committedPath, "utf8"));
-    expect(committed).toEqual(JSON.parse(JSON.stringify(buildStarterManifest())));
+    const onDiskPath = path.resolve(__dirname, "..", "template-manifest.json");
+    if (!fs.existsSync(onDiskPath)) {
+      throw new Error("template-manifest.json is missing — run `npm run build` before `npm test`");
+    }
+    const onDisk = JSON.parse(fs.readFileSync(onDiskPath, "utf8"));
+    expect(onDisk).toEqual(JSON.parse(JSON.stringify(buildStarterManifest())));
   });
 });

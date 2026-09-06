@@ -15,7 +15,7 @@
  *   - preview assets referenced (explicitly or by convention) must exist.
  *
  * `buildStarterManifest()` is pure — the freshness test diffs it against the
- * committed JSON so a stale manifest can't slip through review.
+ * generated JSON on disk so a stale manifest can't slip through review.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";

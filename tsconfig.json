@@ -16,8 +16,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    // LF output on every platform so a Windows build of unchanged source
-    // diffs clean against a mac-committed dist/ (and vice versa).
+    // LF output on every platform so a Windows build and a mac build of the
+    // same source are byte-identical.
     "newLine": "lf",
     "types": ["node", "jest"]
   },

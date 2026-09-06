@@ -1,5 +1,5 @@
-# LF everywhere so dist/ built on Windows and macOS diffs clean against the
-# committed copy (tsconfig also sets "newLine": "lf"). Binaries opt out.
+# LF everywhere so source and generated files match byte-for-byte across
+# Windows and macOS (tsconfig also sets "newLine": "lf"). Binaries opt out.
 * text=auto eol=lf
 *.png -text
 *.jpg -text

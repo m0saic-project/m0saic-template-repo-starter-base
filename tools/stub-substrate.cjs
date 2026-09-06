@@ -1,8 +1,8 @@
 /**
  * Substrate stubs for the no-install contract check (tools/contract-check.mjs).
  *
- * On a bare clone there is no node_modules — but the committed dist/ still
- * `require()`s "@m0saic/types", "@m0saic/template-utils", etc. at load time.
+ * The built dist/ `require()`s "@m0saic/types", "@m0saic/template-utils",
+ * etc. at load time, and the check must run without the substrate on disk.
  * This shim patches Module._load so those specifiers resolve to an identity
  * proxy: every property access yields another proxy, and every call returns
  * its FIRST argument. That is exactly right for the substrate's module-scope

@@ -5,13 +5,23 @@ files that load in Mosaic**, plus one hello-world template. Pick this repo
 when you already know the structure and want a clean start; pick the full
 starter when you want the 79-lesson curriculum.
 
-## Use it (no install)
+## Use it
 
-`dist/` and `template-manifest.json` are committed, so hosts load the repo
-as-is:
+`dist/` and `template-manifest.json` are build output and are **not
+committed** — the full starter ships them for a zero-build clone; this
+scaffold is for developing in, so generated files stay out of your diffs.
+Build once, then point a host at the folder:
+
+```
+npm install        # needs ../m0saic as a sibling — see "Author in it"
+npm run build      # tsc → dist/, copies assets, writes template-manifest.json
+```
 
 - **App**: Templates → Add source → this folder → consent → Refresh.
 - **CLI**: `m0saic make @m0saic-starter-base/basics/hello-world/v1 --template-repo . -o hello.mp4`
+
+Hosts import `dist/index.js` and never read `src/`. Anyone who clones your
+fork runs the same two commands before the folder loads.
 
 ## Author in it
 
@@ -19,7 +29,6 @@ Author mode needs the m0saic monorepo checked out as a **sibling**
 directory (`../m0saic`) so the `file:` links in package.json resolve.
 
 ```
-npm install
 npm run verify     # build + lint + jest + contract-check + check-deps
 ```
 
@@ -41,4 +50,5 @@ someone else's handle.
 The curriculum, its previews, docs set, ordinal stamper, and example
 upstream all live in the full starter. This repo is the empty stage:
 five substrate deps, one pack, one template, and the same load contract
-hosts already trust.
+hosts already trust. Committed build output is also not here: `dist/` and
+the manifest are yours to generate.
