@@ -40,6 +40,19 @@ defaults (it renders, every `editor.binding` resolves, displayed props are
 bound, svg glyphs exist). Errors fail the build and name the fix; warnings
 print. `hello-world` models the binding rule: the rect that shows `text` is
 `bindProp`-bound, so Make's double-click edits it in place.
+
+Scaffold your first real template instead of hand-rolling it:
+
+```
+npm run new -- basics/my-card --title "My Card"
+```
+
+It writes the template, its test and the registry wiring, and passes every
+gate as generated. The build also keeps a layout fingerprint beside each
+template (`<slug>.layout.m0`, a native `.m0` file of the flattened layout at
+the hinted canvas) and fails when a layout changes until you
+`npm run fingerprints:update` and commit the diff. `m0saic doctor .` runs
+the same checks from outside the build.
 New template: mirror `src/basics/hello-world/` (folder = slug, `vN`
 versioned), add a row to the pack's `registry.ts` and its export to the
 pack's `index.ts`, mint a preview (`npm run previews`), re-run `verify`.
