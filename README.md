@@ -38,8 +38,8 @@ The build runs every template through the platform's template conventions
 paths, description + tags, labels) and again after rendering it at its
 defaults (it renders, every `editor.binding` resolves, displayed props are
 bound, svg glyphs exist). Errors fail the build and name the fix; warnings
-print. `hello-world` models the binding rule: the rect that shows `text` is
-`bindProp`-bound, so Make's double-click edits it in place.
+print. `hello-world` models the binding rule: the rects that show `greeting`
+and `caption` are `bindProp`-bound, so Make's double-click edits them in place.
 
 Scaffold your first real template instead of hand-rolling it:
 
@@ -53,9 +53,12 @@ template (`<slug>.layout.m0`, a native `.m0` file of the flattened layout at
 the hinted canvas) and fails when a layout changes until you
 `npm run fingerprints:update` and commit the diff. `m0saic doctor .` runs
 the same checks from outside the build.
-New template: mirror `src/basics/hello-world/` (folder = slug, `vN`
-versioned), add a row to the pack's `registry.ts` and its export to the
-pack's `index.ts`, mint a preview (`npm run previews`), re-run `verify`.
+New template: `npm run new -- basics/my-card` scaffolds one (folder = slug,
+`vN` versioned) with its test and the registry wiring; mint a preview
+(`npm run previews`), re-run `verify`. `hello-world` is the canonical card —
+one call to `defineHelloWorldTemplate` — and this repo's **front door**
+(`repo.helloWorld` in `src/repo.ts`); keep it, edit the subline via
+`displayName`, or point the field at your own template.
 
 ## Make it yours (forks)
 

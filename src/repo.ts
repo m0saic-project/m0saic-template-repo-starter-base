@@ -2,7 +2,7 @@ import type {
   MosaicTemplatePackDescriptor,
   MosaicTemplateRepoDescriptor,
 } from "@m0saic/types";
-import { asRepoId } from "@m0saic/types";
+import { asRepoId, asTemplateId } from "@m0saic/types";
 
 /**
  * Who this repo is. The entry module (src/index.ts) re-exports this as
@@ -24,6 +24,10 @@ export const TEMPLATE_REPO: MosaicTemplateRepoDescriptor = {
   curator: "m0saic",
   homepage: "https://github.com/m0saic-project/m0saic-template-repo-starter-base",
   assets: { templatesDir: "assets/templates" },
+  // The front door — the template a newcomer renders first (the hello-world
+  // convention): the canonical card with this repo's subline. Point it at
+  // your own template if you want your own look.
+  helloWorld: asTemplateId("@m0saic-starter-base/basics/hello-world/v1"),
 };
 
 /**

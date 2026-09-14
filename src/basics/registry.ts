@@ -12,7 +12,7 @@ export const basicsRegistry: StarterRegistryEntry[] = [
     exportName: "HelloWorldV1",
     title: "01 · Hello World",
     description:
-      "The smallest correct template: a typed props surface with deterministic defaults, an id minted with asTemplateId, outputHints as the suggested canvas, and a render() returning a validated m0 string plus one source per tile in walk order. Replace it with your first real template.",
-    tags: ["basics", "starter"],
+      "The canonical m0saic hello-world card with this repo's subline: the brand field wipes in, a navy card rises, the M assembles from its own rectangles, then the wordmark and your greeting. The repo's front door — what `m0saic hello-world --template-repo .` renders. Replace it with your first real template, or keep it and point repo.helloWorld at your own.",
+    tags: ["basics", "starter", "brand", "hello"],
   },
 ];
