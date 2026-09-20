@@ -10,7 +10,7 @@
  *     excluded) is relative, an allowlisted package (subpaths included), an
  *     allowlisted builtin, or covered by a per-file exception.
  *  3. Pack lint over template-manifest.json: every templateKey lives under
- *     `@m0saic-starter/<pack>/<slug>/vN`, its pack is declared in
+ *     `<repoId>/<pack>/<slug>/vN`, its pack is declared in
  *     manifest.packs[], and maps to an existing src/<pack>/ folder.
  *  4. Curriculum lint: every declared pack id appears as a `## <pack>`
  *     heading in CURRICULUM.md (skipped with a warning until the file

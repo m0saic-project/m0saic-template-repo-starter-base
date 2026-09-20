@@ -1,5 +1,5 @@
 /**
- * `@m0saic-starter-base/basics/hello-world/v1` — this repo's FRONT DOOR, and
+ * `@my-templates/basics/hello-world/v1` — this repo's FRONT DOOR, and
  * its one template.
  *
  * The canonical m0saic hello-world card — the brand-pattern field wiping in,
@@ -27,7 +27,7 @@ import {
 import { asTemplateId } from "@m0saic/types";
 import { TEMPLATE_REPO } from "../../../repo";
 
-export const HELLO_WORLD_ID = "@m0saic-starter-base/basics/hello-world/v1";
+export const HELLO_WORLD_ID = "@my-templates/basics/hello-world/v1";
 
 /** The canonical card, built by the factory. */
 const card = defineHelloWorldTemplate({

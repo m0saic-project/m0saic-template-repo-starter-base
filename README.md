@@ -1,5 +1,9 @@
 # m0saic-template-repo-starter-base
 
+> Ships under the placeholder identity `@my-templates` / "My Templates" —
+> not the m0saic name — because it is meant to become *your* repo. Mosaic
+> flags any unsigned repo that calls itself m0saic; a scaffold should not.
+
 The compact twin of [m0saic-template-repo-starter]: the **minimum set of
 files that load in Mosaic**, plus one hello-world template. Pick this repo
 when you already know the structure and want a clean start; pick the full
@@ -18,7 +22,7 @@ npm run build      # tsc → dist/, copies assets, writes template-manifest.json
 ```
 
 - **App**: Templates → Add source → this folder → consent → Refresh.
-- **CLI**: `m0saic make @m0saic-starter-base/basics/hello-world/v1 --template-repo . -o hello.mp4`
+- **CLI**: `m0saic make @my-templates/basics/hello-world/v1 --template-repo . -o hello.mp4`
 
 Hosts import `dist/index.js` and never read `src/`. Anyone who clones your
 fork runs the same two commands before the folder loads.
@@ -64,7 +68,7 @@ one call to `defineHelloWorldTemplate` — and this repo's **front door**
 
 ## Make it yours (forks)
 
-Rename in **one file**: `src/repo.ts` → `repoId`. Every gate (manifest
+Rename in **one file**: `src/repo.ts` → `repoId` (and `displayName`; both ship as placeholders). Every gate (manifest
 generator, contract check, dep policy) derives the expected id namespace
 from it. Then update the template ids' prefix to match, rebuild, done.
 Id ownership in a running host is first-registrant-wins — never ship under

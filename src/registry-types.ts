@@ -10,10 +10,10 @@ import type { MosaicTemplateRepoManifestEntry } from "@m0saic/types";
  * template.
  */
 export type StarterRegistryEntry = {
-  /** Slug segment of the id — `@m0saic-starter/<pack>/<SLUG>/vN`. */
+  /** Slug segment of the id — `<repoId>/<pack>/<SLUG>/vN`. */
   slug: string;
 
-  /** The FULL versioned template id, e.g. `"@m0saic-starter/basics/hello-world/v1"`. */
+  /** The FULL versioned template id, e.g. `"@my-templates/basics/hello-world/v1"`. */
   templateId: string;
 
   /** Named export on the repo entry module (src/index.ts) that yields the template. */

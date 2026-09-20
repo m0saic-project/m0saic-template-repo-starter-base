@@ -8,7 +8,7 @@ import type { StarterRegistryEntry } from "../registry-types";
 export const basicsRegistry: StarterRegistryEntry[] = [
   {
     slug: "hello-world",
-    templateId: "@m0saic-starter-base/basics/hello-world/v1",
+    templateId: "@my-templates/basics/hello-world/v1",
     exportName: "HelloWorldV1",
     title: "01 · Hello World",
     description:

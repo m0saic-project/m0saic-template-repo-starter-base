@@ -16,18 +16,22 @@ import { asRepoId, asTemplateId } from "@m0saic/types";
  * first-registrant-wins per id, so never squat someone else's handle.
  */
 export const TEMPLATE_REPO: MosaicTemplateRepoDescriptor = {
-  repoId: asRepoId("@m0saic-starter-base"),
-  displayName: "m0saic Template Starter Base",
+  // A PLACEHOLDER identity on purpose: this scaffold is designed to become
+  // your repo, so it does not carry the m0saic name — hosts flag any
+  // unsigned repo that does as "presents itself as m0saic". Rename both
+  // lines to your own handle and label before you publish.
+  repoId: asRepoId("@my-templates"),
+  displayName: "My Templates",
   schemaVersion: 1,
   description:
     "The compact twin of the m0saic template starter: the minimum set of files that load in Mosaic, plus one hello-world template. Fork it, rename it, build on it.",
-  curator: "m0saic",
+  curator: "you",
   homepage: "https://github.com/m0saic-project/m0saic-template-repo-starter-base",
   assets: { templatesDir: "assets/templates" },
   // The front door — the template a newcomer renders first (the hello-world
   // convention): the canonical card with this repo's subline. Point it at
   // your own template if you want your own look.
-  helloWorld: asTemplateId("@m0saic-starter-base/basics/hello-world/v1"),
+  helloWorld: asTemplateId("@my-templates/basics/hello-world/v1"),
 };
 
 /**

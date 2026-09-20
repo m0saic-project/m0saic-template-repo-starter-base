@@ -29,19 +29,7 @@ const MP4_BUDGET = 5 * 1024 * 1024;
 /** Ids whose motion is the point — these also get preview.mp4 + poster.png. */
 const ANIMATED_PREVIEW_IDS = new Set([
   // The front door: the field wipes in and the M assembles — the motion IS the card.
-  "@m0saic-starter-base/basics/hello-world/v1",
-  // The drawtext column's % counter is the lesson's beat; a still freezes it.
-  "@m0saic-starter/text/text-three-ways/v1",
-  // The ramp IS the template. A still shows the counter at t=0.
-  "@m0saic-starter/text/count-up/v1",
-  // A camera walk is motion by definition; a still is one arbitrary settle.
-  "@m0saic-starter/compose/camera-follow/v1",
-  // The crossfade IS the lesson — a still lands on one side of it.
-  "@m0saic-starter/pipelines/two-scenes/v1",
-  // The back-edge only reads as one when you see step 1 inherit step 0.
-  "@m0saic-starter/pipelines/ref-across-steps/v1",
-  // A pipeline inside a tile: the inner scenes have to change to make the point.
-  "@m0saic-starter/pipelines/nested-pipeline/v1",
+  "@my-templates/basics/hello-world/v1",
 ]);
 
 /** Clip dims per id; default 1920×1080 (previews look like the product). */
@@ -50,7 +38,7 @@ const CLIP_DIMS = new Map([]);
  *  CLI's 2s default — past a leading transition, before a trailing one). A
  *  reveal that settles at the END of its clip names its own moment here. */
 const STILL_AT_SEC = new Map([
-  ["@m0saic-starter-base/basics/hello-world/v1", 2.45],
+  ["@my-templates/basics/hello-world/v1", 2.45],
 ]);
 /** Ids whose still must be CUT from the mp4 rather than rendered directly.
  *  Two different reasons, both landing here:
@@ -67,11 +55,7 @@ const STILL_AT_SEC = new Map([
 const STILL_FROM_VIDEO = new Set([
   // (2) the front door: the field wipes in and the M assembles — t=0 is a
   // bare navy canvas; the card is settled only at the end of the clip.
-  "@m0saic-starter-base/basics/hello-world/v1",
-  // (1) emit:single pipelines.
-  "@m0saic-starter/pipelines/two-scenes/v1",
-  "@m0saic-starter/pipelines/ref-across-steps/v1",
-  "@m0saic-starter/pipelines/nested-pipeline/v1",
+  "@my-templates/basics/hello-world/v1",
 ]);
 const FFMPEG = process.env.M0SAIC_FFMPEG || "ffmpeg";
 
@@ -97,23 +81,11 @@ function frameFromVideo(video, still, atSec, label) {
 /** emit:"multi" templates write `{base}-{step}.{ext}`, never `{base}.{ext}` —
  *  so a preview has to name the step it wants and move it into place. */
 const MULTI_OUTPUT_STEP = new Map([
-  ["@m0saic-starter/pipelines/fan-out/v1", "landscape"],
-  ["@m0saic-starter/pipelines/png-sequence/v1", "frame-1"],
-  ["@m0saic-starter/pipelines/ref-reframe/v1", "reframed"],
 ]);
 
 /** Per-id preview canvas when 1920x1080 misrepresents the template — or
  *  (media units showing real video frames) busts the PNG budget. */
 const PREVIEW_DIMS = new Map([
-  ["@m0saic-starter/basics/hot-reload-canary/v1", ["720", "720"]],
-  ["@m0saic-starter/media/probe-card/v1", ["640", "360"]],
-  ["@m0saic-starter/media/luma-badge/v1", ["384", "216"]],
-  ["@m0saic-starter/media/time-range-clip/v1", ["426", "240"]],
-  ["@m0saic-starter/media/time-ranges-medley/v1", ["426", "160"]],
-  ["@m0saic-starter/media/play-speed/v1", ["426", "240"]],
-  // Full-bleed video frame: photographic, so it busts the PNG budget at 720p
-  // and still does at 426x240 (176 KB). This is the largest 16:9 that fits.
-  ["@m0saic-starter/surfaces/render-cover/v1", ["384", "216"]],
 ]);
 
 /** Per-id overrides when the default flags don't fit (e.g. multi-output
@@ -124,24 +96,6 @@ const PREVIEW_DIMS = new Map([
 const FX = (rel) => path.join(ROOT, rel).split(path.sep).join("/");
 const PROPS = (obj) => JSON.stringify(obj);
 const PREVIEW_OVERRIDES = new Map([
-  ["@m0saic-starter/media/image-card/v1", ["--props", PROPS({ image: FX("assets/media/epoch-m-1024x1024.png") })]],
-  ["@m0saic-starter/media/folder-contact-strip/v1", ["--props", PROPS({ images: ["tile-red", "tile-gold", "tile-green", "tile-blue"].map((t) => FX(`assets/media/${t}.png`)) })]],
-  ["@m0saic-starter/media/probe-card/v1", ["--props", PROPS({ media: FX("assets/media/bbb-2s.mp4") })]],
-  ["@m0saic-starter/media/time-range-clip/v1", ["--props", PROPS({ video: FX("assets/media/bbb-2s.mp4"), clipStartMs: 500, clipEndMs: 1500 })]],
-  ["@m0saic-starter/media/time-ranges-medley/v1", ["--props", PROPS({ video: FX("assets/media/bbb-2s.mp4"), ranges: [{ startMs: 0, endMs: 700 }, { startMs: 700, endMs: 1400 }, { startMs: 1400, endMs: 2000 }] })]],
-  ["@m0saic-starter/media/luma-badge/v1", ["--props", PROPS({ image: FX("assets/media/bbb-frame-960x540.jpg") })]],
-  ["@m0saic-starter/media/play-speed/v1", ["--props", PROPS({ video: FX("assets/media/bbb-2s.mp4"), sampleMs: 1000, speed: 1, loopMode: "loop" })]],
-  ["@m0saic-starter/media/audio-mix/v1", ["--props", PROPS({ narration: FX("assets/media/tone-440-320x240-2s.mp4"), narrationVolume: 1 })]],
-  // Carved type with no file falls back to a flat colour — true, but it hides
-  // the whole point (a picture playing through the letters).
-  // With variants on, `encodes` renames the master and no preview.png lands.
-  ["@m0saic-starter/pipelines/encode-matrix/v1", ["--props", PROPS({ web: false, mobile: false })]],
-  ["@m0saic-starter/text/carved-type/v1", ["--props", PROPS({ word: "MOSAIC", media: FX("assets/media/bbb-frame-960x540.jpg") })]],
-  // Its render is STRICT by design, so default props render the "needs a
-  // clip" report card — a rough browse tile for the one template whose
-  // subject is not having a broken first impression. (The friendly page is
-  // its renderCover, which is editor-only and unreachable from `make`.)
-  ["@m0saic-starter/surfaces/render-cover/v1", ["--props", PROPS({ clip: FX("assets/media/bbb-2s.mp4") })]],
 ]);
 
 function resolveCli() {

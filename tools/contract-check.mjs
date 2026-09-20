@@ -9,7 +9,7 @@
  *   1. package.json is not "type":"module" and `main` points at a real file.
  *   2. template-manifest.json parses; schemaVersion 1 at both levels;
  *      repoId matches the manifest (derived from src/repo.ts); entryModule exists; every preview path
- *      exists; every templateKey matches @m0saic-starter/<pack>/<slug>/vN
+ *      exists; every templateKey matches <repoId>/<pack>/<slug>/vN
  *      with a declared pack and a real src/<pack>/ folder.
  *   3. The entry is genuinely CommonJS: a bare require() must succeed
  *      (an ESM build throws ERR_REQUIRE_ESM — that IS the CJS gate).
@@ -91,7 +91,7 @@ if (manifest) {
     const key = String(entry.templateKey ?? "");
     const m = STARTER_KEY_RE.exec(key);
     if (!m) {
-      fail(`manifest templateKey "${key}" does not match @m0saic-starter/<pack>/<slug>/vN`);
+      fail(`manifest templateKey "${key}" does not match <repoId>/<pack>/<slug>/vN`);
       continue;
     }
     if (!declaredPacks.has(m[1])) {
@@ -169,7 +169,7 @@ if (mod) {
       }
       const id = t.id;
       if (typeof id !== "string" || !STARTER_KEY_RE.test(id)) {
-        fail(`templates[${i}].id ${JSON.stringify(id)} does not match @m0saic-starter/<pack>/<slug>/vN`);
+        fail(`templates[${i}].id ${JSON.stringify(id)} does not match <repoId>/<pack>/<slug>/vN`);
         return;
       }
       liveIds.push(id);
