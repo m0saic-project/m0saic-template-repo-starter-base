@@ -13,7 +13,7 @@ scaffold is for developing in, so generated files stay out of your diffs.
 Build once, then point a host at the folder:
 
 ```
-npm install        # needs ../m0saic as a sibling — see "Author in it"
+npm install        # the @m0saic/* substrate comes from npm
 npm run build      # tsc → dist/, copies assets, writes template-manifest.json
 ```
 
@@ -25,11 +25,13 @@ fork runs the same two commands before the folder loads.
 
 ## Author in it
 
-Author mode needs the m0saic monorepo checked out as a **sibling**
-directory (`../m0saic`) so the `file:` links in package.json resolve.
+The five `@m0saic/*` packages in `package.json` install from npm — the 0.x
+ranges track the `m0saic` CLI line, the language packages (`@m0saic/dsl`,
+`@m0saic/dsl-stdlib`) version on their own. No monorepo checkout, no links.
 
 ```
 npm run verify     # build + lint + jest + contract-check + check-deps
+m0saic doctor .    # the same conventions + fingerprints, from the CLI
 ```
 
 The loop: edit `src/`, `npm run build`, Refresh the source in the app.
