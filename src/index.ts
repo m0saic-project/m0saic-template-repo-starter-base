@@ -1,3 +1,6 @@
+// FIRST: declare this repo's catalog, so every template below is defined with
+// its label / description / tags / prop copy applied (see ./catalog).
+import "./catalog";
 import type { MosaicTemplate, MosaicTemplateProps } from "@m0saic/types";
 
 import { TEMPLATE_PACKS, TEMPLATE_REPO } from "./repo";

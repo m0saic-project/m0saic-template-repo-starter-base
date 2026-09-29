@@ -7,6 +7,9 @@ node_modules
 # so generated files stay out of your diffs.
 dist
 template-manifest.json
+# the catalog, gathered from the <name>.catalog.json sidecars by the build
+template-catalog.json
+src/template-catalog.json
 
 # local render output
 test-output

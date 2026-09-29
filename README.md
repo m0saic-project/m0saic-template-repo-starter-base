@@ -53,8 +53,10 @@ Scaffold your first real template instead of hand-rolling it:
 npm run new -- basics/my-card --title "My Card"
 ```
 
-It writes the template, its test and the registry wiring, and passes every
-gate as generated. The build also keeps a layout fingerprint beside each
+It writes the template, its catalog sidecar (`my-card.catalog.json` — the
+label, description, tags and each prop's label / hint; the code carries none
+of it, per the m0saic 0.3.1 template convention), its test and the registry
+wiring, and passes every gate as generated. The build also keeps a layout fingerprint beside each
 template (`<slug>.layout.m0`, a native `.m0` file of the flattened layout at
 the hinted canvas) and fails when a layout changes until you
 `npm run fingerprints:update` and commit the diff. `m0saic doctor .` runs

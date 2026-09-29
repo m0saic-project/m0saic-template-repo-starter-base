@@ -87,7 +87,6 @@ import {
   bindProp,
   defineMosaicTemplate,
   definePropsSchema,
-  makeColorTile,
   placeInsetPieces,
   svgLabel,
 } from "@m0saic/template-utils";
@@ -118,32 +117,24 @@ const INK = "#eaeef2" as MosaicColor;
 const DIM = "#9aa7b4" as MosaicColor;
 const DEFAULT_TITLE = ${JSON.stringify(title)};
 
+// What each prop IS. How Make presents it — its label, hint, placeholder,
+// order — lives in ${slug}.catalog.json beside this file (m0saic 0.3.1).
 const propsSchema = definePropsSchema<${pascal(slug)}Props>({
-  title: {
-    type: "string",
-    required: false,
-    description: "Headline. The rect that shows it is bound to it, so Make's double-click edits it in place.",
-    meta: { control: { placeholder: DEFAULT_TITLE }, ui: { label: "Title", order: 1 } },
-  },
+  title: { type: "string", required: false },
   pageColor: {
     type: "string",
     required: false,
-    description: "Backdrop as #rrggbb.",
     meta: {
       constraints: { isColor: true },
       control: { colorPicker: true, defaultColor: "#1c2833" },
-      ui: { label: "Page color", order: 2 },
     },
   },
 });
 
+// The template's label, description and tags live in ${slug}.catalog.json.
 export const ${exportName} = defineMosaicTemplate<${pascal(slug)}Props>({
   id: asTemplateId(ID),
-  label: ${JSON.stringify(`${NN} · ${title}`)},
-  version: 1,
-  description: ${JSON.stringify(description)},
   capabilities: { tier: "core" },
-  tags: [${JSON.stringify(pack)}, "starter"],
 
   outputHints: {
     width: 1280,
@@ -183,8 +174,9 @@ export const ${exportName} = defineMosaicTemplate<${pascal(slug)}Props>({
     const piece = (rect: { x: number; y: number; w: number; h: number }, importance: number, source: MosaicSource) =>
       pieces.push({ rect: { ...rect, importance }, source });
 
-    // Backdrop - the whole canvas, painted first.
-    piece(px(0, 0, 1, 1), 0, makeColorTile(page));
+    // The page color is the DOCUMENT's background (backgroundColor below) —
+    // never a full-canvas rect, which Make would select on every click
+    // (the canvasFill convention).
 
     // The title rect is BOUND to the prop it shows (bind what you display).
     const head = px(0.06, 0.3, 0.88, 0.2);
@@ -241,6 +233,24 @@ describe(${JSON.stringify(ID)}, () => {
 });
 `;
 write(`${packDir}/${slug}/v1/${slug}.ts`, templateTs);
+
+// ── the catalog sidecar: what describes the template (m0saic 0.3.1) ──
+write(`${packDir}/${slug}/v1/${slug}.catalog.json`, JSON.stringify({
+  schemaVersion: 1,
+  templateId: ID,
+  label: `${NN} · ${title}`,
+  description,
+  tags: [pack, "starter"],
+  props: {
+    title: {
+      label: "Title",
+      description: "Headline. The rect that shows it is bound to it, so Make's double-click edits it in place.",
+      placeholder: title,
+      order: 1,
+    },
+    pageColor: { label: "Page color", description: "Backdrop as #rrggbb.", order: 2 },
+  },
+}, null, 2) + "\n");
 write(`${packDir}/${slug}/v1/${slug}.test.ts`, testTs);
 
 // ── registry row ──
@@ -248,10 +258,6 @@ const row = `  {
     slug: ${JSON.stringify(slug)},
     templateId: ${JSON.stringify(ID)},
     exportName: ${JSON.stringify(exportName)},
-    title: ${JSON.stringify(`${NN} · ${title}`)},
-    description:
-      ${JSON.stringify(description)},
-    tags: [${JSON.stringify(pack)}, "starter"],
   },
 `;
 const registryVar = `${camel(pack)}Registry`;
@@ -357,4 +363,4 @@ if (!packIsLast && fs.existsSync(path.join(ROOT, "tools/stamp-ordinals.mjs"))) {
 
 console.log(`new-template: ${ID}  (${NN} · ${title})`);
 for (const f of touched) console.log(`  ${fs.existsSync(path.join(ROOT, f)) ? "wrote" : "?"}  ${f}`);
-console.log("\nNext:\n  npm run build && npm run previews && npm run build && npm run fingerprints:update && npm run verify\n  then edit " + `${packDir}/${slug}/v1/${slug}.ts` + " — the header comment is the lesson; " + `${slug}.layout.m0` + " beside it is the layout fingerprint.");
+console.log("\nNext:\n  npm run build && npm run previews && npm run build && npm run fingerprints:update && npm run verify\n  then edit " + `${packDir}/${slug}/v1/${slug}.ts` + " — the header comment is the lesson; " + `${slug}.catalog.json` + " beside it holds its label, description, tags and prop copy; " + `${slug}.layout.m0` + " is the layout fingerprint.");

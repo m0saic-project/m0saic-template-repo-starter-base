@@ -45,17 +45,26 @@ them; change `src/` and rebuild.
 
 1. `src/<pack>/<slug>/v1/<slug>.ts` — a plain template object via
    `defineMosaicTemplate`; deterministic, duration from `ctx.target`, every
-   optional prop with a default, randomness seeded through a prop.
-2. A row in `src/<pack>/registry.ts` (id `@<your-handle>/<pack>/<slug>/v1`,
-   title with its `NN · ` ordinal).
-3. A unit test beside it asserting something deterministic (geometry, the
+   optional prop with a default, randomness seeded through a prop. It
+   declares what the template IS — no label, description, tags or prop copy.
+2. `src/<pack>/<slug>/v1/<slug>.catalog.json` beside it — `{ "schemaVersion": 1,
+   "templateId", "label" (with its `NN · ` ordinal), "description", "tags",
+   "props": { "<key>": { "label", "description", "placeholder", "order" } } }`.
+   The build gathers these into `template-catalog.json`.
+3. A row in `src/<pack>/registry.ts` (id `@<your-handle>/<pack>/<slug>/v1`,
+   the export name) — identity and order only.
+4. A unit test beside it asserting something deterministic (geometry, the
    resolved tree, or a validation error).
-4. `npm run verify` green; `m0saic doctor .` reports no blocking finding.
+5. `npm run verify` green; `m0saic doctor .` reports no blocking finding.
 
-A template that has shipped never changes again: a fix is a new `v2` folder,
-and the old one gets an entry in `template-deprecations.json` (beside
-`template-manifest.json`) — `{ reason, replacement, since }` under its id.
-Never set `deprecated` inside a template; hosts read the sidecar (m0saic 0.3.1+).
+`npm run new -- <pack>/<slug>` writes 1–4 for you.
+
+A template that has shipped never changes again: a fix is a new `v2` folder.
+What DESCRIBES a template (label, description, tags, visibility, deprecation,
+and each prop's label / hint / placeholder) lives in its catalog sidecar,
+`<name>.catalog.json` beside the module, never in the code — the code freezes
+when it ships, the sidecar stays editable. Deprecate the old version there:
+`"deprecated": { "reason", "replacement", "since" }` (m0saic 0.3.1+).
 
 ## Rules that fail silently
 
