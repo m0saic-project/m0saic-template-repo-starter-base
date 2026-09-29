@@ -52,8 +52,10 @@ them; change `src/` and rebuild.
    resolved tree, or a validation error).
 4. `npm run verify` green; `m0saic doctor .` reports no blocking finding.
 
-A template that has shipped never changes again: a fix is a new `v2` folder
-and `deprecated: { replacement }` on the old one.
+A template that has shipped never changes again: a fix is a new `v2` folder,
+and the old one gets an entry in `template-deprecations.json` (beside
+`template-manifest.json`) — `{ reason, replacement, since }` under its id.
+Never set `deprecated` inside a template; hosts read the sidecar (m0saic 0.3.1+).
 
 ## Rules that fail silently
 
